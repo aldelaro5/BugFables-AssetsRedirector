@@ -18,11 +18,17 @@ namespace BugFables.AssetsRedirector
     {
       if (musicclip != null)
       {
-        string path = Path.Combine(Path.GetDirectoryName(Common.Plugin.Info.Location), "Audio\\Music\\" + musicclip.name + ".wav");
-        if (File.Exists(path))
+        string path = Path.Combine(Path.GetDirectoryName(Common.Plugin.Info.Location), "Audio\\Music\\" + musicclip.name);
+        if (File.Exists(path + ".wav"))
         {
           string name = musicclip.name;
-          musicclip = Common.LoadAudioClip(path);
+          musicclip = Common.LoadAudioClip(path + ".wav");
+          musicclip.name = name;
+        }
+        else if (File.Exists(path + ".ogg"))
+        {
+          string name = musicclip.name;
+          musicclip = Common.LoadAudioClip(path + ".ogg");
           musicclip.name = name;
         }
       }

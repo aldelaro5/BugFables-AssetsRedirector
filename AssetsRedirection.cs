@@ -25,7 +25,7 @@ namespace BugFables.AssetsRedirector
     private void AseetLoad(ResourceLoadedContext context)
     {
       // Only redirect sound effects, music are redirected via Harmony patch
-      if (context.Asset is AudioClip && context.Parameters.Path.StartsWith("Audio\\Sounds"))
+      if (context.Asset is AudioClip && context.Parameters.Path.StartsWith("Audio/Sounds"))
         RedirectSoundEffect(context);
       else if (context.Asset is Sprite)
         RedirectSprites(context);
@@ -95,11 +95,18 @@ namespace BugFables.AssetsRedirector
 
     private void RedirectSoundEffect(ResourceLoadedContext context)
     {
-      string path = Path.Combine(Path.GetDirectoryName(base.Info.Location), context.Parameters.Path + ".wav");
-      if (File.Exists(path))
+      string path = Path.Combine(Path.GetDirectoryName(base.Info.Location), context.Parameters.Path);
+      if (File.Exists(path + ".wav"))
       {
         string name = context.Asset.name;
-        context.Asset = Common.LoadAudioClip(path);
+        context.Asset = Common.LoadAudioClip(path + ".wav");
+        context.Asset.name = name;
+        context.Complete();
+      }
+      else if (File.Exists(path + ".ogg"))
+      {
+        string name = context.Asset.name;
+        context.Asset = Common.LoadAudioClip(path + ".ogg");
         context.Asset.name = name;
         context.Complete();
       }

@@ -65,8 +65,8 @@ Here are the list of supported assets and the method of redirecting them as well
 - Non entities sprites (.png only, XUnity.ResourceRedirector)
 - Entities sprites (.png only, Harmony patch, the entities gets their sprites overriden after their first Update and the list of overriden entities gets cleaned up every 5 minutes to remove destroyed ones)
 - `Misc/main1.png` and `Misc/main2.png` (.png only set the texture of the material using XUnity.ResourceRedirector)
-- Sound effects (.wav only, XUnity.ResourceRedirector)
-- Music (.wav only, Harmony patch, this patches the `PlayMusic` method of the game)
+- Sound effects (.wav and .ogg only, XUnity.ResourceRedirector)
+- Music (.wav and .ogg only, Harmony patch, this patches the `PlayMusic` method of the game)
 - TextAssset in the data folder (either no extension or .txt or .bytes, XUnity.ResourceRedirector)
 
 ## Building and debugging instructions
