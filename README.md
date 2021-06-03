@@ -1,23 +1,13 @@
-## BugFables-Speedrun-Practice
-A BepInEx plugin assisting speedrunners of the game Bug Fables. This plugin is a port of a modified version of the game's Assembly-CSharp.dll which was previously distributed for this purpose. The port offers the following advantages:
-
-1. It no longer requires the distribution of the game's Assembly-CSharp.dll which could lead to copyright issues
-2. Since the patches are done at runtime instead of being a static patch, it allows more liberty in configuration in conjunction with BepInEx's standardized configuration scheme
-3. Due to #1, the code can be distributed publically under a Git repository which allows better tracking of changes through time
-
-> _This branch is only compatible with version 1.1 of the game. Please use the 1.0.5 branch if you must use this plugin with previous versions of the game._
+## BugFables-AssetsRedirector
+A BepInEx plugin redirecting the assets of the game Bug Fables. This plugin allows modders to easilly customise the sounds, music, sprites and text data of the game by simply dropping the edited assets into a folder. This not only makes modding more accessible, but it also improves testability as it is not necessary to pack the assets into the data.unity3d file. The assets are dynamically replaced when the game needs them if they are present
 
 ## Installation instructions
-> _If you already have a 1.x version of the old practice dll (one that came with an Assembly-CSharp.dll), you must uninstall it first._
-
 If this is not done already, you first need to install the BepInEx loader into the game. To do so, [download the latest release](https://github.com/BepInEx/BepInEx/releases) by getting the zip file marked "x64". Then, simply unzip it into the game's directory such as the `BepInEx` folder as well as the 3 provided files appears from the game's directory. If you are using Steam, this directory is by default located at `C:\Program Files (x86)\Steam\steamapps\common\Bug Fables` on Windows and at `~/.steam/steam/steamapps/common/Bug Fables` on Linux. Once the files are placed, launch the game once for the installation to complete.
 
-Once this is done, [download the latest version of the plugin](https://github.com/aldelaro5/BugFables-Speedrun-Practice/releases) and unzip it into `BepInEx/plugins` from the game's directory. You should unzip it so the folder `Speedrun-Practice` with all the files from the zip appears ***directly*** under the `plugins` folder.
-
-To verify the installation was performed correctly, launch the game and verify that the lower left corner of the title screen. It should display information about this plugin such as the version and the authors.
+Once this is done, [download the latest version of the plugin](https://github.com/aldelaro5/BugFables-AssetsRedirector/releases) and unzip it into `BepInEx/plugins` from the game's directory. You should unzip it so the folder `AssetsRedirector` with all the files from the zip appears ***directly*** under the `plugins` folder.
 
 ## Uninstallation instruction
-To uninstall the plugin, simply delete the `BepInEx/plugins/Speedrun-Practice` folder from the game's directory. 
+To uninstall the plugin, simply delete the `BepInEx/plugins/AssetsRedirector` folder from the game's directory. 
 
 If you want to entirely remove BepInEx and all of its plugins, delete the following under the game's directory:
 
@@ -27,31 +17,57 @@ If you want to entirely remove BepInEx and all of its plugins, delete the follow
 * The file winhttp.dll
 
 ## Usage instructions
-This plugin functions by adding features when pressing the F keys on the keyboard during gameplay.
+This plugin comes with an empty directory structure that matches the assets structure of the game. To override an asset, you simply have to put the edited file at the same place than the location of the asset in the game. Therefore, the first step is to get an extraction of the assets structure to get the original assets and to know where to place them.
 
-In the overworld:
+This can be done using [uTinyRipper](https://sourceforge.net/projects/utinyripper/files/) which is a simple executable that allows to extract all the assets of the game.
 
-* F1 - Show Player & Map Info
-* F2 - Input Display (Keyboard Only atm)
-* F3 - Heal Party
-* F4 - Toggle Infinite Jump
-* F5 - Toggle Speed (2x)
-* F6 - Save Game
-* F7 - Reload Save
-* F8 - Go-to Main Menu
-* F9 - Select previous position slot
-* F10 - Select next position slot
-* F11 - Save position in room
-* F12 - Load position in room
-* DEL - Toggle NoClip+Infinite Jump 
+### Extracting the assets with uTinyRipper
+To use it, you first need to locate your game's directory. This can be done on the steam version by performing the following steps:
 
-In battle:
+- Right click on the game in your library and select "Properties"
+- Select "LOCAL FILES" on the left
+- Click "Browse"
+- Your file explorer should open at the game's directory
 
-* F3 - Instant Enemy Kill
-* F4 - Instant Flee (w/o losing berries)
-* F5 - Instant Retry during battle
+If you are using the itch.io version or the GOG version, you will need to locate where the game has been installed.
 
-Note: If you close or re-enter the main menu, you will lose your saved positions.
+Once done, start uTinyRipper and simply Drag and drop the folder ending with `_Data`. 
+
+![Screenshot](https://raw.githubusercontent.com/aldelaro5/BugFables-AssetsRedirector/master/Docs/uTinyRipper.gif)
+
+The program will load the structure. Once done, click the "Export" button that appears and choose the location where you want the assets to be extracted.
+
+> NOTE: it is HIGHLY recommended to extract to a new folder and do not extract them at the same folder as the plugin (you will copy the files later).
+
+This process can take up to 15 minutes. Once done, you should see a `data` folder appearing at the location you chose.
+
+### Explanation of the directory structure
+To proceed with copying an asset, you will need to check the `data/Assets/Ressources` folder from where you have performed the extraction. This folder is the root folder of ALL assets that can be redirected using this plugin. Specifically, the `audio`, `data` and `sprites` folder are supported by this plugin. If you check the plugin's directory, you will see these 3 corresponding folders. You will also notice that the folders INSIDE of them also corresponds to what you got from uTinyRipper. 
+
+> NOTE: The capitalisation of the names of the folder may differ, but NEVER RENAME THE ONES PROVIDED BY THE PLUGIN! They are correct in the plugin's folder, but uTinyRipper doesn't name them with the correct capitalisation after the extraction.
+
+### Overriding assets
+From there, to override an asset, perform the following:
+
+- Take an asset for example, Vi's sprites are located at `sprites/entities/bee0.png`
+- Copy the file to the corresponding folder in the plugin's directory (in this example, it would be at `Sprites/Entities/bee0.png`)
+- Perform any edits on the asset you would like; you can do anything as long as the file is named, located and in the same format than the original
+- Start up the game and observe the asset has been overriden by the one you provided
+
+Since this plugin override the assets dynamically, it is even possible to edit the file while the game is opened and see the changes immediately when the asset is being reloaded by the game.
+
+### Notes on distribution
+To distribute your mod, simply zip the whole directory and tell your users to unzip it in the plugins folder.
+> NOTE: DO NOT DISTRIBUTE THE ORIGINAL ASSETS WITH YOUR MOD! Doing so is technically a coyright infrigement since you are distributing content which you are not the author. ONLY distribute files you have modified yourself as you own the modification, but not the original content. This plugin is not responsible for issues which you may run into if you do not respect the copyright of Moonsprout Games. Please, respect the ethics and the copyrights of the original author.
+
+### Notes about supported assets
+Here are the list of supported assets and the method of redirecting them as well as their supported format:
+- Non entities sprites (.png only, XUnity.ResourceRedirector)
+- Entities sprites (.png only, Harmony patch, the entities gets their sprites overriden after their first Update and the list of overriden entities gets cleaned up every 5 minutes to remove destroyed ones)
+- `Misc/main1.png` and `Misc/main2.png` (.png only set the texture of the material using XUnity.ResourceRedirector)
+- Sound effects (.wav only, XUnity.ResourceRedirector)
+- Music (.wav only, Harmony patch, this patches the `PlayMusic` method of the game)
+- TextAssset in the data folder (either no extension or .txt or .bytes, XUnity.ResourceRedirector)
 
 ## Building and debugging instructions
 This section is intended ***only for developers***. You do not need to do this if you only want to use the plugin. Refer to the ***Installation instructions*** section for this purpose.
@@ -61,7 +77,7 @@ This section is intended ***only for developers***. You do not need to do this i
 
 This project is configured for Visual Studio 2019 (previous versions may work, but are untested). To build the project, you first need to place the required dlls into the `Libs` directory present on this repository. Refer to `Libs/README.txt` for more information on which dlls to place.
 
-Once this is done, the project should build successfully. To improve convenience, you may want to set the output path to `Bug Fables\BepInEx\plugins\Speedrun-Practice` (where `Bug Fables` is the game's directory) in the project's configuration for ease of testing.
+Once this is done, the project should build successfully. To improve convenience, you may want to set the output path to `Bug Fables\BepInEx\plugins\AssetsRedirector` (where `Bug Fables` is the game's directory) in the project's configuration for ease of testing.
 
 ### Debugging
 To debug the plugin, you will need the [dnSpy](https://github.com/0xd4d/dnSpy/releases) program (download the file ` dnSpy-net472.zip`). Once it's installed, you will need to [download this modified version of mono.dll](https://drive.google.com/open?id=1u_xyatcUWKceWajzNImkvKQuNxKgArHi) and place it at `Mono/EmbedRuntime` from the game's directory. You may want to backup or rename the original one that comes with the game in case you want to revert it.
@@ -72,9 +88,6 @@ With this done, you will now be able to debug the plugin with dnSpy. Open the Sp
 All contributions via pull requests are welcome as well as issue reports on this issue tracker. You may also request features with this issue tracker.
 
 If you are planning to submit a pull request, do not share any substantial amount of code from the game as it can lead to copyright issues and thanks to Harmony + BepInEx, it can be avoided in almost all cases. Any pull requests that contains substantial amount of code from the game will be immediately denied if I judge it can be done without sharing the code.
-
-## Credits
-This plugin was done by Benjee, wataniyob, Wintar, Lyght and I with the help of ArchaicEx.
 
 ## License
 This plugin is licensed under the MIT license which grants you the permission to freely use, modify and distribute this plugin as long as the original license and its copyright notice is still present. Refer to [the MIT license](https://github.com/aldelaro5/BugFables-Speedrun-Practice/blob/master/LICENSE) for more information.
