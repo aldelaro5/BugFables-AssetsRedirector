@@ -8,14 +8,14 @@ using XUnity.ResourceRedirector;
 
 namespace BugFables.AssetsRedirector
 {
-  [BepInPlugin("com.aldelaro5.BugFables.plugins.AssetsRedirection", "Assets Redirector", "1.0.0")]
+  [BepInPlugin("com.aldelaro5.BugFables.plugins.AssetsRedirector", "Assets Redirector", "1.0.0")]
   [BepInProcess("Bug Fables.exe")]
   public class AssetsRedirection : BaseUnityPlugin
   {
     public void Awake()
     {
       Common.Plugin = this;
-      var harmony = new Harmony("com.aldelaro5.BugFables.plugins.AssetsRedirection");
+      var harmony = new Harmony("com.aldelaro5.BugFables.plugins.AssetsRedirector");
       harmony.PatchAll(typeof(EntitiesSpritesRedirector));
       harmony.PatchAll(typeof(PlayMusicRedirector));
       ResourceRedirection.EnableSyncOverAsyncAssetLoads();
