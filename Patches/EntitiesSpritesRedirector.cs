@@ -49,6 +49,12 @@ namespace BugFables.AssetsRedirector
         if (File.Exists(path + ".png"))
         {
           ImageConversion.LoadImage(__instance.sprite.sprite.texture, File.ReadAllBytes(path + ".png"));
+          Vector2 standardisedPivot = new Vector2(__instance.sprite.sprite.pivot.x / __instance.sprite.sprite.rect.width, 
+                                                  __instance.sprite.sprite.pivot.y / __instance.sprite.sprite.rect.height);
+          Sprite newSprite = Sprite.Create(__instance.sprite.sprite.texture, __instance.sprite.sprite.rect, 
+                                           standardisedPivot, __instance.sprite.sprite.pixelsPerUnit);
+          newSprite.name = __instance.sprite.sprite.name;
+          __instance.sprite.sprite = newSprite;
           OverridenEntitiesSprite.Add(id, __instance);
         }
       }
