@@ -18,7 +18,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>0</WarningLevel>
-    <OutputPath>C:\Users\aldelaro5\Documents\1.1-FINAL\BepInEx\plugins\</OutputPath>
+    <OutputPath>C:\Users\aldelaro5\Documents\1.1-FINAL\BepInEx\plugins\AssetsRedirector\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
