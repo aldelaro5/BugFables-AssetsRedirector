@@ -1,5 +1,5 @@
 # DEPRECIATION NOTICE
-This project has been deprecated and will not be supported for the forseeable fututre. It is incredebly out of data with its setup and ways to mess with assets as there are much better ways to do this involving unity and asset bundles. Until an alternative is available (which I plan to do), this repostitory will be kept for your convenience. When an alternative becomes available with proper documentations, I will archive this.
+This project has been deprecated and will not be supported for the forseeable future. It is incredebly out of data with its setup and ways to mess with assets as there are much better ways to do this involving unity and asset bundles. Until an alternative is available (which I plan to do), this repostitory will be kept for your convenience. When an alternative becomes available with proper documentations, I will archive this.
 
 I strongly recommend to exercise caution when using the documentations of this repository as they are often terribly out of date, wrong or missleading. This tool was never made to be used in actual projects and while I still don't recommend you do so, I understand it's the only available tool for this. The alternative should be more versatile and be much more stable.
 
